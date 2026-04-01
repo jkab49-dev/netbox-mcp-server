@@ -174,10 +174,11 @@ class NetBoxRestClient(NetBoxClientBase):
         self.api_url = f"{self.base_url}/api"
         self.token = token
         self.verify_ssl = verify_ssl
+        auth_scheme = "Bearer" if token.startswith("nbt_") else "Token"
         self.session = httpx.Client(verify=self.verify_ssl)
         self.session.headers.update(
             {
-                "Authorization": f"Token {token}",
+                "Authorization": f"{auth_scheme} {token}",
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             }
